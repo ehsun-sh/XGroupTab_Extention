@@ -1,122 +1,106 @@
-# X Group Tab
+<p align="center">
+  <img src="icons/icon128.png" width="96" alt="X Group Tab icon">
+</p>
 
-اکستنشن Chrome / Edge (Manifest V3) که تب‌های باز را بر اساس سایت گروه‌بندی می‌کند و برای هر سایت دو عملیات ارائه می‌دهد:
+<h1 align="center">X Group Tab</h1>
 
-1. **بستن همه** — تمام تب‌های آن سایت در همه‌ی پنجره‌ها بسته می‌شوند.
-2. **گروه‌بندی** — تمام تب‌های آن سایت به پنجره‌ی فعلی منتقل و در یک Tab Group با نام همان دامنه قرار می‌گیرند. اگر گروهی با همان نام از قبل وجود داشته باشد، تب‌ها به همان گروه اضافه می‌شوند.
+<p align="center">Count, group, merge &amp; close your tabs by site — in one click.<br>
+A Manifest V3 extension for Chrome and Edge.</p>
 
-هر ردیف تعداد تب و تعداد پنجره‌ی آن دامنه را نشان می‌دهد.
+<p align="center">
+  <img src="store/assets/promo.gif" alt="X Group Tab promo animation" width="800">
+  <br>
+  <a href="store/assets/promo-video-1280x720.mp4">▶ Watch the full-quality video (MP4)</a>
+</p>
 
-## نصب (حالت توسعه‌دهنده)
+## Features
 
-1. در Edge آدرس `edge://extensions` را باز کنید.
-2. گزینه‌ی **Developer mode** را روشن کنید.
-3. روی **Load unpacked** بزنید و این پوشه را انتخاب کنید.
-4. آیکون اکستنشن را از نوار ابزار پین کنید.
+### See everything
+- Every open tab counted by site, across all windows, with a tab and window count for each site.
+- Live Tab Group badges in their real browser colors, e.g. `Work · 3 of 5`. If a site's tabs are spread over several groups, up to two badges are shown, plus `+N`.
+- When **all** tabs of a site are in one group and one window, the row's edge takes the group color and the button changes to **✓ Grouped**.
+- Instant domain search. Click a site to expand its tabs: click a tab to jump to it, or use **×** to close it.
+- The summary line shows total tabs, windows, sites and Tab Groups.
 
-پس از هر تغییر در کد، روی دکمه‌ی Reload همان کارت در `edge://extensions` بزنید.
+### Group a site in one click
+The group button adapts to the site's current state:
 
-## زبان
-
-از منوی بالای پاپ‌آپ می‌توان بین **فارسی** و **English** جابه‌جا شد؛ جهت صفحه (RTL/LTR) و قالب اعداد هم با زبان عوض می‌شود. انتخاب زبان در `chrome.storage.sync` ذخیره می‌شود. اگر تا به حال زبانی انتخاب نشده باشد، از زبان رابط مرورگر تشخیص داده می‌شود.
-
-در حالت فارسی رابط با فونت **Vazirmatn** نمایش داده می‌شود. فایل فونت داخل خود اکستنشن قرار دارد (`fonts/Vazirmatn.woff2`) چون CSP اکستنشن‌های MV3 اجازه‌ی بارگذاری فونت از CDN را نمی‌دهد. در حالت انگلیسی فونت پیش‌فرض سیستم استفاده می‌شود.
-
-برای افزودن زبان تازه کافی است یک کلید جدید در `STRINGS` داخل `i18n.js` اضافه شود؛ منوی زبان خودکار از روی همین شیء ساخته می‌شود.
-
-
-## ساختار
-
-| فایل | توضیح |
-| --- | --- |
-| `manifest.json` | تعریف اکستنشن و مجوزهای `tabs`، `tabGroups`، `storage` |
-| `popup.html` | رابط کاربری پاپ‌آپ |
-| `popup.css` | استایل، با پشتیبانی از تم روشن و تیره و هر دو جهت RTL/LTR |
-| `i18n.js` | دیکشنری زبان‌ها، ذخیره‌ی انتخاب کاربر، قالب‌بندی عدد و بایت |
-| `popup.js` | شمارش تب‌ها، نشانگر Tab Group، منطق بستن، گروه‌بندی و ادغام |
-| `icons/` | آیکون‌ها در اندازه‌های ۱۶ تا ۱۲۸ |
-| `fonts/` | فونت Vazirmatn (نسخه‌ی متغیر woff2) و متن مجوز OFL آن |
-
-## نکته‌ها
-
-- تب‌های پین‌شده قابل گروه‌بندی نیستند؛ پیش از گروه‌بندی به‌صورت خودکار از حالت پین خارج می‌شوند.
-- صفحه‌های داخلی مرورگر زیر برچسب پروتکل خودشان دسته‌بندی می‌شوند.
-- زیردامنه‌ها جدا شمرده می‌شوند؛ فقط پیشوند `www.` حذف می‌شود.
-
-## باز کردن زیرمجموعه‌ی هر سایت
-
-با کلیک روی نام هر دامنه، فهرست تب‌های آن باز می‌شود. در این فهرست:
-
-- کلیک روی هر تب، مرورگر را روی همان تب و همان پنجره می‌برد و پاپ‌آپ بسته می‌شود.
-- دکمه‌ی × کنار هر تب فقط همان یک تب را می‌بندد.
-
-## نشانگر Tab Group
-
-هر سایتی که تب‌هایش داخل یک Tab Group واقعی مرورگر باشد، همین‌جا هم مشخص می‌شود:
-
-- زیر نام سایت یک **برچسب رنگی** با نام گروه می‌آید؛ رنگ نقطه دقیقاً همان رنگ گروه در نوار تب‌های مرورگر است.
-- اگر فقط بخشی از تب‌های سایت در گروه باشد، تعداد هم نوشته می‌شود، مثلاً «Work · ۱ از ۳». اگر تب‌های یک سایت در چند گروه پخش باشند، چند برچسب نمایش داده می‌شود (حداکثر دو تا و بقیه با «+۱»).
-- وقتی **همه‌ی** تب‌های سایت داخل یک گروه و یک پنجره‌اند، لبه‌ی ردیف هم‌رنگ آن گروه می‌شود و دکمه‌ی «گروه‌بندی» به «✓ گروه شده» تغییر می‌کند و غیرفعال می‌ماند.
-- در فهرست زیرمجموعه، کنار هر تبی که عضو گروه است یک نقطه‌ی رنگی هست.
-- گروه‌هایی که خودتان ساخته‌اید و نامی ندارند با «گروه بدون نام» نشان داده می‌شوند.
-- عدد کل Tab Groupها هم در خط خلاصه‌ی بالای پاپ‌آپ آمده است.
-
-## ادغام پنجره‌ها
-
-دکمه‌ی **ادغام پنجره‌ها** در بالای پاپ‌آپ، تب‌های همه‌ی پنجره‌های باز را به پنجره‌ی فعلی منتقل می‌کند تا همه‌چیز در یک پنجره جمع شود. پنجره‌های خالی‌شده خودبه‌خود بسته می‌شوند.
-
-- تب‌های پین‌شده پین باقی می‌مانند و به ابتدای نوار می‌روند.
-- پنجره‌های InPrivate ادغام نمی‌شوند (مرورگر اجازه‌ی انتقال تب بین حالت عادی و InPrivate را نمی‌دهد) و در پیام پایانی گزارش می‌شوند.
-- Tab Groupهای پنجره‌های مبدأ در جریان انتقال از هم باز می‌شوند؛ بعد از ادغام می‌توانید با دکمه‌ی «گروه‌بندی» هر دامنه دوباره آن‌ها را گروه کنید.
-
-
-## کار با گروه‌های موجود
-
-دکمه‌ی گروه‌بندی هر سایت، به وضعیت فعلی آن سایت بستگی دارد:
-
-| وضعیت سایت | برچسب دکمه | کاری که می‌کند |
+| Site state | Button | What it does |
 | --- | --- | --- |
-| هیچ تبی در گروه نیست | گروه‌بندی | یک گروه تازه به نام دامنه می‌سازد (یا به گروه هم‌نام همان پنجره اضافه می‌کند) |
-| بعضی تب‌ها در یک گروه‌اند و بقیه آزادند | افزودن به گروه | تب‌های آزاد را به همان گروه می‌آورد، حتی اگر نام گروه با دامنه فرق داشته باشد |
-| تب‌ها در چند گروه پخش‌اند | ادغام گروه‌ها | همه را در گروهی جمع می‌کند که بیشترین تب آن سایت را دارد (در تساوی، گروه پنجره‌ی فعلی؛ بعد گروه قدیمی‌تر). گروه‌های خالی‌شده خودبه‌خود حذف می‌شوند |
-| همه در یک گروه و یک پنجره‌اند | ✓ گروه شده | غیرفعال |
+| No tabs grouped | Group | Creates a group named after the domain (or joins a same-named group in the current window) |
+| Some tabs in one group, others loose | Add to group | Brings the loose tabs into that group, even if its name differs from the domain |
+| Tabs spread over several groups | Merge groups | Gathers everything into the group holding most of the site's tabs (ties: current window's group, then the older group). Emptied groups disappear |
+| All in one group and one window | ✓ Grouped | Disabled |
 
-اگر گروه هدف در پنجره‌ی دیگری باشد، تب‌ها به همان پنجره منتقل می‌شوند (گروه جابه‌جا نمی‌شود).
+Tabs from other windows are moved to the target group's window. Pinned tabs are unpinned first, because pinned tabs can't be grouped.
 
-### انتقال یک تب به گروه دیگر
+### Move a single tab
+In a site's tab list, the **⇄** button next to each tab moves it to any existing group, into a new group, or out of its group.
 
-در فهرست زیرمجموعه‌ی هر سایت، کنار هر تب یک دکمه‌ی **⇄** هست. با کلیک روی آن می‌توانید همان یک تب را:
+### Manage Tab Groups
+- **By site / By group** toggle (your choice is remembered).
+- In **By group** view, every Tab Group is one row with its color, name, tab count, sites and window number. From there you can:
+  - **⇄** merge the group into another group (they don't have to share a site; the target keeps its name and color),
+  - **Ungroup** — keep the tabs, remove the group,
+  - **Close all** tabs in the group.
+- Tabs outside any group are collected in a final **Ungrouped** row.
+- Unnamed groups show as “Unnamed group”. Hover a group name to see its internal `id`, which helps tell apart same-named groups in different windows.
 
-- به هر یک از گروه‌های موجود ببرید (رنگ گروه با یک دایره‌ی رنگی کنار نامش نشان داده می‌شود)،
-- در یک گروه تازه بگذارید،
-- یا از گروه فعلی‌اش بیرون بیاورید.
+### Close & merge
+- **Close all** closes every tab of a site in every window.
+- **Merge windows** moves the tabs from every window into the current one. Pinned tabs stay pinned at the front and emptied windows close. Private (Incognito/InPrivate) windows can't be merged and are reported instead. Tab Groups in the source windows are dissolved during the move, so re-group with the site's **Group** button afterwards.
 
-گروه‌های تمام‌شده‌ی بدون تب، خود مرورگر حذف می‌کند.
+### Details
+- Automatic light and dark theme.
+- English and Persian (RTL) interface, switchable from the popup. The choice is saved in `chrome.storage.sync`; without one, the browser UI language is used. Persian uses the bundled **Vazirmatn** font, since MV3's CSP blocks CDN fonts.
+- Live refresh: the popup listens to tab and Tab Group events, so the list stays current after every action.
+- Internal browser pages are grouped under their protocol (e.g. `chrome://`). Subdomains are counted separately; only `www.` is stripped.
 
-### ادغام دو گروه دلخواه
+## Privacy
 
-روی هر **برچسب گروه** (زیر نام سایت) یک دکمه‌ی کوچک **⇄** هست. با کلیک روی آن، فهرست بقیه‌ی گروه‌های مرورگر باز می‌شود؛ گروه مقصد را انتخاب کنید تا همه‌ی تب‌های این گروه به آن منتقل شوند.
+X Group Tab collects no data, makes no network requests, and has no analytics. See the [privacy policy](https://ehsun-sh.github.io/x-group-tab-privacy/).
 
-- گروه‌ها لازم نیست به یک سایت مربوط باشند.
-- گروه مقصد نام و رنگ خودش را نگه می‌دارد؛ گروه مبدأ خالی می‌شود و مرورگر آن را حذف می‌کند.
-- اگر دو گروه در پنجره‌های مختلف باشند، تب‌ها به پنجره‌ی گروه مقصد منتقل می‌شوند.
-- اگر فقط یک گروه وجود داشته باشد، دکمه‌ی ⇄ نمایش داده نمی‌شود.
+Permissions: `tabs` and `tabGroups` to read and organize your tabs, and `storage` for the language and view preference.
 
-## دو نمای فهرست: بر اساس سایت / بر اساس گروه
+## Install (developer mode)
 
-بالای پاپ‌آپ دو دکمه‌ی **بر اساس سایت** و **بر اساس گروه** هست؛ انتخابتان ذخیره می‌شود.
+1. Open `chrome://extensions` (or `edge://extensions`).
+2. Turn on **Developer mode**.
+3. Click **Load unpacked** and select this folder.
+4. Pin the extension icon in the toolbar.
 
-- **بر اساس سایت:** هر ردیف یک دامنه است. گروهی که تب‌هایی از چند سایت دارد زیر هر سایت جداگانه یک برچسب می‌گیرد (مثلاً «Work · ۲ از ۵» زیر یک سایت و «Work · ۱ از ۲» زیر سایت دیگر). این‌ها یک گروه‌اند؛ اگر نشانگر را روی برچسب نگه دارید، مجموع تب‌های کل گروه در راهنما نوشته می‌شود.
-- **بر اساس گروه:** هر Tab Group مرورگر دقیقاً یک ردیف است، با رنگ و نام خودش، تعداد کل تب‌ها و فهرست سایت‌های داخلش. برای هر گروه:
-  - **⇄** گروه را در گروه دیگری ادغام می‌کند،
-  - **لغو گروه** تب‌ها را نگه می‌دارد ولی از گروه بیرون می‌آورد،
-  - **بستن همه** تمام تب‌های گروه را می‌بندد،
-  - کلیک روی ردیف، تب‌های گروه را باز می‌کند (با همان دکمه‌های رفتن به تب، انتقال به گروه دیگر و بستن).
+After changing the code, click **Reload** on the extension's card.
 
-  تب‌هایی که در هیچ گروهی نیستند در ردیف آخر، «بدون گروه»، جمع می‌شوند.
+## Adding a language
 
-## تازه‌سازی خودکار
+Add a new key to `STRINGS` in `i18n.js`. The language menu is built from that object automatically.
 
-پاپ‌آپ به رویدادهای تب و Tab Group مرورگر گوش می‌دهد و فهرست را خودش تازه می‌کند؛ Edge وضعیت نوار تب را بعد از هر عملیات با کمی تأخیر اعمال می‌کند و اگر فقط یک‌بار بلافاصله خوانده شود، حالت قدیمی نشان داده می‌شود. بعد از ادغام گروه‌ها هم اگر تبی در گروه مبدأ مانده باشد، خودکار دوباره منتقل می‌شود.
+## Project structure
 
-در نمای «بر اساس گروه»، وقتی بیش از یک پنجره باز است، شماره‌ی پنجره‌ی هر گروه کنار آن نوشته می‌شود و با نگه‌داشتن نشانگر روی نام گروه، شناسه‌ی داخلی آن (`id`) هم دیده می‌شود؛ این برای تشخیص دو گروه هم‌نام در پنجره‌های مختلف است.
+| Path | Description |
+| --- | --- |
+| `manifest.json` | Extension definition and the `tabs`, `tabGroups`, `storage` permissions |
+| `popup.html` | Popup UI |
+| `popup.css` | Styles, with light/dark themes and both RTL/LTR directions |
+| `i18n.js` | Language dictionary, saved choice, number formatting |
+| `popup.js` | Tab counting, Tab Group badges, close / group / merge logic |
+| `icons/` | Icons from 16 to 128 px |
+| `fonts/` | Vazirmatn variable font (woff2) and its OFL license |
+| `store/` | Chrome Web Store listing text, screenshots, promo tiles, video, privacy policy |
+| `store/tools/` | Scripts that render the icons, screenshots and promo video with headless Chrome |
+
+## Rebuilding store assets
+
+Requires Node.js 22+, Google Chrome and ffmpeg.
+
+```bash
+cd store/tools
+node make-icons.mjs    # icons/*.png from icon.svg
+node snap-popup.mjs    # renders the real popup with demo data
+node make-store.mjs    # screenshots and promo tiles
+node record.mjs        # promo video (store/promo/promo.html -> MP4)
+```
+
+## License
+
+The Vazirmatn font is licensed under the SIL Open Font License (`fonts/OFL.txt`).
