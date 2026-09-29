@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>X Group Tab — Promo</title>
+<style>
+  :root{
+    --ink:#0f1729; --muted:#5b6478; --paper:#f5f7fc; --line:rgba(15,23,41,.1);
+    --blue:#1a73e8; --green:#188038; --red:#d93025; --purple:#9334e6; --orange:#e8710a; --yellow:#f9ab00;
+    --grad:linear-gradient(135deg,#2b7de9,#5b3fd6);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#0b0f1e}
+  body{display:grid;place-items:center;font-family:"Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,sans-serif;overflow:hidden}
+  #frame{position:relative;width:1280px;height:720px;overflow:hidden;background:
+    radial-gradient(900px 500px at 90% -10%,#cfe0ff 0,transparent 60%),
+    radial-gradient(800px 500px at -10% 110%,#e6ddff 0,transparent 60%),var(--paper);color:var(--ink);transform-origin:center}
+  .scene{position:absolute;inset:0;opacity:0}
+  .a{animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
+
+  /* ---------- keyframes ---------- */
+  @keyframes show{0%{opacity:0}6%{opacity:1}94%{opacity:1}100%{opacity:0}}
+  @keyframes up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{opacity:0;transform:scale(.6)}70%{transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
+  @keyframes fadeout{to{opacity:0;transform:scale(.9)}}
+  @keyframes grow{from{width:0}}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(43,125,233,.5)}50%{box-shadow:0 0 0 12px rgba(43,125,233,0)}}
+  @keyframes press{0%,100%{transform:scale(1)}50%{transform:scale(.92)}}
+  @keyframes cursorIn{from{opacity:0;transform:translate(160px,120px)}to{opacity:1;transform:none}}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px) rotate(-1deg)}75%{transform:translateX(4px) rotate(1deg)}}
+
+  /* ---------- shared ---------- */
+  .h{font-weight:800;letter-spacing:-1.5px;line-height:1.05}
+  .h em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .kicker{font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#4f5de0}
+  .copy{position:absolute;left:90px;top:50%;transform:translateY(-50%);width:470px}
+  .copy .h{font-size:52px;margin:14px 0 18px}
+  .copy p{font-size:21px;line-height:1.5;color:var(--muted)}
+  .card{position:absolute;background:#fff;border-radius:18px;box-shadow:0 30px 70px -25px rgba(20,30,80,.35),0 0 0 1px var(--line)}
+  .fav{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;color:#fff;font:700 12px Arial;flex:none}
+  .btn{font-size:14px;font-weight:600;padding:6px 12px;border-radius:8px;border:1.5px solid var(--blue);color:var(--blue);background:#fff;white-space:nowrap}
+  .btn.red{border-color:var(--red);color:var(--red)}
+  .btn.solid{background:var(--blue);color:#fff}
+  .cursor{position:absolute;width:26px;height:26px;z-index:5;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
+
+  /* ---------- scene 1: chaos ---------- */
+  .strip{position:absolute;left:50%;top:210px;transform:translateX(-50%);width:1120px;height:56px;border-radius:14px;background:#dfe5f1;display:flex;gap:4px;padding:8px;overflow:hidden}
+  .strip i{flex:1;min-width:0;height:40px;border-radius:9px;background:#fff;display:flex;align-items:center;gap:6px;padding:0 8px;box-shadow:0 1px 0 rgba(0,0,0,.05)}
+  .strip i b{width:16px;height:16px;border-radius:4px;flex:none}
+  .strip i u{height:6px;border-radius:3px;background:#e3e7ef;flex:1;text-decoration:none}
+  .s1 .title{position:absolute;width:100%;text-align:center;top:340px;font-size:76px}
+  .s1 .sub{position:absolute;width:100%;text-align:center;top:450px;font-size:24px;color:var(--muted)}
+  .counter{position:absolute;right:80px;top:130px;font-size:18px;font-weight:700;color:var(--red);background:#fde7e5;padding:8px 14px;border-radius:999px}
+
+  /* ---------- scene 2: logo ---------- */
+  .s2{display:grid;place-items:center;text-align:center}
+  .logo{width:150px;height:150px;margin:0 auto 26px;filter:drop-shadow(0 20px 30px rgba(60,60,200,.35))}
+  .s2 .h{font-size:88px}
+  .s2 p{font-size:26px;color:var(--muted);margin-top:16px}
+
+  /* ---------- scene 3: count by site ---------- */
+  .pop{right:100px;top:90px;width:520px;padding:18px 20px}
+  .pop .ttl{font-weight:700;font-size:18px}
+  .pop .sum{font-size:14px;color:var(--muted);margin-top:4px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  .row{display:flex;align-items:center;gap:12px;padding:13px 4px;border-bottom:1px solid var(--line)}
+  .row:last-child{border-bottom:0}
+  .row .nm{flex:1;min-width:0}
+  .row .nm b{display:block;font-size:16px}
+  .row .nm small{font-size:13px;color:var(--muted)}
+  .num{font-size:26px;font-weight:800;min-width:40px;text-align:right;color:var(--ink)}
+  .bar{height:6px;border-radius:3px;margin-top:6px;background:var(--c)}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;margin-top:6px;background:color-mix(in srgb,var(--c) 14%,#fff);border:1px solid color-mix(in srgb,var(--c) 40%,#fff);color:color-mix(in srgb,var(--c) 70%,#000)}
+  .chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+
+  /* ---------- scene 4: group a site ---------- */
+  .tabs4{position:absolute;left:600px;top:150px;width:600px}
+  .tabs4 .t{position:absolute;left:0;width:600px;height:50px;border-radius:12px;background:#fff;box-shadow:0 8px 24px -10px rgba(20,30,80,.3),0 0 0 1px var(--line);display:flex;align-items:center;gap:12px;padding:0 16px;font-size:16px}
+  .tabs4 .t .tt{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .grp{position:absolute;left:600px;width:600px;border-radius:16px;border:2.5px solid var(--blue);background:rgba(26,115,232,.06)}
+  .grp label{position:absolute;left:18px;top:-17px;background:var(--blue);color:#fff;font-weight:700;font-size:15px;padding:5px 14px;border-radius:999px}
+  .toast{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:17px;padding:12px 22px;border-radius:12px;white-space:nowrap}
+
+  /* ---------- scene 5: groups ---------- */
+  .gcard{position:absolute;width:250px;padding:18px;border-radius:16px;background:#fff;box-shadow:0 20px 40px -20px rgba(20,30,80,.35),0 0 0 1px var(--line);border-left:6px solid var(--c)}
+  .gcard b{font-size:20px;display:flex;align-items:center;gap:10px}
+  .gcard b::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--c)}
+  .gcard small{display:block;color:var(--muted);font-size:14px;margin-top:6px}
+  .gcard .mini{display:flex;gap:5px;margin-top:12px}
+  .gcard .mini i{width:30px;height:8px;border-radius:4px;background:var(--c);opacity:.5}
+  .arrow{position:absolute;font-size:40px;color:#5b3fd6;font-weight:800}
+
+  /* ---------- scene 6: windows ---------- */
+  .win{position:absolute;width:300px;height:190px;border-radius:14px;background:#fff;box-shadow:0 20px 40px -20px rgba(20,30,80,.4),0 0 0 1px var(--line);overflow:hidden}
+  .win .bar6{height:34px;background:#e7ebf3;display:flex;gap:3px;padding:6px 8px 0}
+  .win .bar6 i{flex:1;background:#fff;border-radius:6px 6px 0 0;border-top:3px solid var(--c,#cfd6e4)}
+  .win .dots{position:absolute;left:12px;bottom:14px;right:12px;display:grid;gap:8px}
+  .win .dots i{height:10px;border-radius:5px;background:#eef1f6}
+
+  /* ---------- scene 7: outro ---------- */
+  .s7{display:grid;place-items:center;text-align:center;color:#fff;background:var(--grad)}
+  .s7 .logo{padding:12px;border-radius:44px;background:rgba(255,255,255,.96);box-shadow:0 24px 50px -12px rgba(20,10,80,.45);filter:none}
+  .s7 .h{font-size:78px}
+  .s7 .pills{display:flex;gap:14px;justify-content:center;margin-top:30px}
+  .s7 .pills span{font-size:18px;font-weight:600;padding:10px 18px;border-radius:999px;background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+  .s7 .cta{margin-top:34px;display:inline-flex;align-items:center;gap:12px;font-size:22px;font-weight:700;background:#fff;color:#3a3fc7;padding:14px 26px;border-radius:14px}
+
+  /* progress */
+  .prog{position:absolute;left:0;bottom:0;height:4px;background:var(--grad);animation:grow 26s linear reverse both;width:100%;opacity:.8}
+  .prog{animation-direction:normal}
+  @keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .prog{transform-origin:left;animation:fill 26s linear both}
+  .replay{position:fixed;right:16px;bottom:16px;font:600 14px system-ui;padding:8px 14px;border-radius:10px;border:0;background:#fff;color:#0f1729;cursor:pointer;opacity:.85}
+  .rec .replay{display:none}
+</style>
+</head>
+<body>
+<div id="frame">
+
+  <!-- 1 · 0s–3.4s  Tab chaos -->
+  <section class="scene s1 a" style="animation:show 3.4s 0s both">
+    <div class="counter a" style="animation:pop .5s 1.2s both">47 tabs open</div>
+    <div class="strip" id="chaos"></div>
+    <div class="title h a" style="animation:up .7s .5s both">Drowning in <em>tabs?</em></div>
+    <div class="sub a" style="animation:up .7s 1s both">Dozens of sites, scattered across windows.</div>
+  </section>
+
+  <!-- 2 · 3.2s–6.8s  Logo -->
+  <section class="scene s2 a" style="animation:show 3.6s 3.2s both">
+    <div>
+      <img class="logo a" src="../tools/icon.svg" alt="" style="animation:pop .8s 3.4s both">
+      <div class="h a" style="animation:up .7s 3.8s both">X Group <em>Tab</em></div>
+      <p class="a" style="animation:up .7s 4.2s both">Count, group, merge &amp; close tabs by site.</p>
+    </div>
+  </section>
+
+  <!-- 3 · 6.6s–10.8s  Count by site -->
+  <section class="scene a" style="animation:show 4.2s 6.6s both">
+    <div class="copy">
+      <div class="kicker a" style="animation:up .6s 6.8s both">01 · See everything</div>
+      <div class="h a" style="animation:up .6s 6.95s both">Every tab,<br><em>counted by site.</em></div>
+      <p class="a" style="animation:up .6s 7.1s both">Tabs and windows per website — plus which ones already live in a Tab Group.</p>
+    </div>
+    <div class="card pop a" style="animation:up .7s 7s both">
+      <div class="ttl">Open tabs by site</div>
+      <div class="sum">47 tabs in 3 windows — 9 sites — 3 groups</div>
+      <div id="rows3"></div>
+    </div>
+  </section>
+
+  <!-- 4 · 10.6s–15.4s  Group in one click -->
+  <section class="scene a" style="animation:show 4.8s 10.6s both">
+    <div class="copy">
+      <div class="kicker a" style="animation:up .6s 10.8s both">02 · One click</div>
+      <div class="h a" style="animation:up .6s 10.95s both">Group a whole<br><em>site instantly.</em></div>
+      <p class="a" style="animation:up .6s 11.1s both">Tabs from every window move together into a named, colored Tab Group.</p>
+    </div>
+    <div class="tabs4" id="tabs4"></div>
+    <div class="grp a" id="grp4" style="top:150px;height:0;opacity:0"><label>github.com</label></div>
+    <div class="btn solid a" id="btn4" style="position:absolute;left:1080px;top:84px;animation:up .5s 11.4s both, press .3s 12.25s">Group</div>
+    <svg class="cursor a" viewBox="0 0 24 24" style="left:1110px;top:98px;animation:cursorIn .8s 11.5s both"><path d="M4 2l16 10-7 1.5L9.5 21z" fill="#0f1729" stroke="#fff" stroke-width="1.5"/></svg>
+    <div class="toast a" style="animation:up .5s 13.4s both">✓ Grouped 5 github.com tabs (2 moved from other windows)</div>
+  </section>
+
+  <!-- 5 · 15.2s–19.6s  Groups: merge / ungroup / close -->
+  <section class="scene a" style="animation:show 4.4s 15.2s both">
+    <div class="copy">
+      <div class="kicker a" style="animation:up .6s 15.4s both">03 · Tidy groups</div>
+      <div class="h a" style="animation:up .6s 15.55s both">Merge, ungroup<br><em>or close groups.</em></div>
+      <p class="a" style="animation:up .6s 15.7s both">A by-group view shows every Tab Group — combine two in a click.</p>
+    </div>
+    <div class="gcard a" id="gA" style="--c:var(--green);left:640px;top:170px;animation:up .6s 15.6s both"><b>Research</b><small>4 tabs · 2 sites</small><div class="mini"><i></i><i></i><i></i><i></i></div></div>
+    <div class="gcard a" id="gB" style="--c:var(--blue);left:960px;top:170px;animation:up .6s 15.75s both"><b>Work</b><small id="gBn">5 tabs · 2 sites</small><div class="mini" id="gBm"><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="arrow a" style="left:908px;top:195px;animation:pop .4s 16.6s both">⇄</div>
+    <div class="toast a" style="animation:up .5s 18s both">✓ Moved 4 tabs from “Research” into “Work”</div>
+    <div class="a" style="position:absolute;left:640px;top:410px;display:flex;gap:12px;animation:up .6s 16s both">
+      <span class="btn">⇄ Merge</span><span class="btn">Ungroup</span><span class="btn red">Close all</span>
+    </div>
+  </section>
+
+  <!-- 6 · 19.4s–23s  Merge windows -->
+  <section class="scene a" style="animation:show 3.6s 19.4s both">
+    <div class="copy">
+      <div class="kicker a" style="animation:up .6s 19.6s both">04 · One window</div>
+      <div class="h a" style="animation:up .6s 19.75s both">Merge all<br><em>windows.</em></div>
+      <p class="a" style="animation:up .6s 19.9s both">Every tab lands in the current window. Pinned tabs stay pinned.</p>
+    </div>
+    <div class="win" id="w1" style="left:640px;top:120px"><div class="bar6"><i style="--c:var(--blue)"></i><i style="--c:var(--blue)"></i><i></i></div><div class="dots"><i></i><i></i><i></i></div></div>
+    <div class="win" id="w2" style="left:900px;top:220px"><div class="bar6"><i style="--c:var(--green)"></i><i></i><i></i></div><div class="dots"><i></i><i></i><i></i></div></div>
+    <div class="win" id="w3" style="left:700px;top:360px"><div class="bar6"><i style="--c:var(--purple)"></i><i></i></div><div class="dots"><i></i><i></i><i></i></div></div>
+    <div class="win a" id="wm" style="left:760px;top:190px;width:400px;height:240px;opacity:0"><div class="bar6"><i style="--c:var(--blue)"></i><i style="--c:var(--blue)"></i><i></i><i style="--c:var(--green)"></i><i></i><i></i><i style="--c:var(--purple)"></i><i></i></div><div class="dots"><i></i><i></i><i></i><i></i></div></div>
+  </section>
+
+  <!-- 7 · 22.8s–26s  Outro -->
+  <section class="scene s7 a" style="animation:show 3.4s 22.8s both;animation-name:showEnd">
+    <div>
+      <img class="logo a" src="../tools/icon.svg" alt="" style="animation:pop .7s 23s both">
+      <div class="h a" style="animation:up .6s 23.3s both">X Group Tab</div>
+      <div class="pills a" style="animation:up .6s 23.6s both"><span>Free</span><span>No tracking</span><span>Light &amp; dark</span><span>English · فارسی</span></div>
+      <div class="cta a" style="animation:pop .6s 24s both">Add to Chrome — it’s free</div>
+    </div>
+  </section>
+
+  <div class="prog"></div>
+</div>
+<button class="replay" onclick="restart()">↻ Replay</button>
+
+<script>
+const TOTAL = 26;
+const $ = (s) => document.querySelector(s);
+const el = (html) => { const d = document.createElement("div"); d.innerHTML = html.trim(); return d.firstChild; };
+const anim = (node, frames, opts) => node.animate(frames, Object.assign({ fill: "both", easing: "cubic-bezier(.2,.8,.2,1)" }, opts));
+
+// outro stays visible at the end
+document.styleSheets[0].insertRule("@keyframes showEnd{0%{opacity:0}8%{opacity:1}100%{opacity:1}}");
+
+// Scene 1 — chaotic tab strip that keeps squeezing
+const COLORS = ["#24292f","#ff0033","#1a73e8","#f48024","#ff4500","#ff6600","#636466","#a259ff","#188038","#e8710a"];
+const chaos = $("#chaos");
+for (let i = 0; i < 34; i++) {
+  const tab = el(`<i><b style="background:${COLORS[(i * 7) % COLORS.length]}"></b><u></u></i>`);
+  chaos.append(tab);
+  anim(tab, [{ opacity: 0, transform: "translateY(-30px)" }, { opacity: 1, transform: "none" }], { duration: 300, delay: 60 * i });
+}
+anim(chaos, [{ transform: "translateX(-50%)" }, { transform: "translateX(-50%) rotate(-.6deg)" }, { transform: "translateX(-50%) rotate(.6deg)" }, { transform: "translateX(-50%)" }], { duration: 400, delay: 2200, iterations: 2 });
+
+// Scene 3 — rows with animated counts
+const SITES = [
+  ["github.com", "G", "#24292f", 12, "3 windows", ["Work · 9 of 12", "var(--blue)"]],
+  ["youtube.com", "▶", "#ff0033", 9, "2 windows", ["Music", "var(--red)"]],
+  ["docs.google.com", "D", "#1a73e8", 8, "2 windows", ["Work · 5 of 8", "var(--blue)"]],
+  ["stackoverflow.com", "S", "#f48024", 7, "3 windows", null],
+  ["reddit.com", "r", "#ff4500", 5, "2 windows", null]
+];
+const rows3 = $("#rows3");
+const counters = [];
+SITES.forEach(([name, l, bg, n, w, chip], i) => {
+  const r = el(`<div class="row"><span class="fav" style="background:${bg}">${l}</span>
+    <div class="nm"><b>${name}</b><small>${n} tabs in ${w}</small>${chip ? `<div><span class="chip" style="--c:${chip[1]}">${chip[0]}</span></div>` : ""}
+    <div class="bar" style="--c:${bg};width:${n / 12 * 100}%"></div></div><span class="num">0</span></div>`);
+  rows3.append(r);
+  const t0 = 7400 + i * 160;
+  anim(r, [{ opacity: 0, transform: "translateX(40px)" }, { opacity: 1, transform: "none" }], { duration: 500, delay: t0 });
+  anim(r.querySelector(".bar"), [{ transform: "scaleX(0)", transformOrigin: "left" }, { transform: "scaleX(1)", transformOrigin: "left" }], { duration: 900, delay: t0 + 200 });
+  counters.push({ node: r.querySelector(".num"), n, t0: (t0 + 200) / 1000 });
+});
+
+// Scene 4 — scattered tabs gather into a group
+const T4 = ["Pull requests · acme/api", "Fix token refresh race · #482", "acme/web: Frontend monorepo", "Trending repositories today", "Notifications"];
+const OFF = [[-40, 0, -3], [60, 80, 2], [-10, 170, -2], [90, 260, 3], [20, 350, -1]];
+const tabs4 = $("#tabs4");
+T4.forEach((title, i) => {
+  const t = el(`<div class="t"><span class="fav" style="background:#24292f">G</span><span class="tt">${title}</span><small style="color:var(--muted);font-size:13px">window ${i % 3 + 1}</small></div>`);
+  tabs4.append(t);
+  const [x, y, rot] = OFF[i];
+  const final = `translate(0px, ${40 + i * 58}px)`;
+  anim(t, [{ opacity: 0, transform: `translate(${x + 80}px, ${y}px) rotate(${rot}deg)` }, { opacity: 1, transform: `translate(${x}px, ${y}px) rotate(${rot}deg)` }], { duration: 500, delay: 10900 + i * 90 });
+  anim(t, [{ transform: `translate(${x}px, ${y}px) rotate(${rot}deg)` }, { transform: final }], { duration: 700, delay: 12400 + i * 60, fill: "forwards" });
+  anim(t.querySelector(".fav"), [{ boxShadow: "0 0 0 0 transparent" }, { boxShadow: "0 0 0 3px var(--blue)" }], { duration: 300, delay: 13000 });
+});
+anim($("#grp4"), [{ opacity: 0, height: "0px", top: "150px" }, { opacity: 1, height: "310px", top: "172px" }], { duration: 600, delay: 12900 });
+
+// Scene 5 — Research merges into Work
+anim($("#gA"), [{ transform: "none", opacity: 1 }, { transform: "translateX(320px) scale(.8)", opacity: 0 }], { duration: 700, delay: 17200, fill: "forwards" });
+anim($("#gB"), [{ transform: "none" }, { transform: "scale(1.08)" }, { transform: "none" }], { duration: 600, delay: 17700 });
+const gBn = $("#gBn"), gBm = $("#gBm");
+const extraMini = [];
+for (let i = 0; i < 4; i++) { const m = el(`<i></i>`); gBm.append(m); extraMini.push(m); anim(m, [{ opacity: 0, width: "0px" }, { opacity: .5, width: "30px" }], { duration: 300, delay: 17700 + i * 70 }); }
+gBm.style.flexWrap = "wrap";
+
+// Scene 6 — windows collapse into one
+[["#w1", 120, -70], ["#w2", -140, -30], ["#w3", 60, -170]].forEach(([s, dx, dy], i) => {
+  anim($(s), [{ opacity: 0, transform: "scale(.8)" }, { opacity: 1, transform: "none" }], { duration: 500, delay: 19600 + i * 120 });
+  anim($(s), [{ transform: "none", opacity: 1 }, { transform: `translate(${dx}px, ${dy}px) scale(.6)`, opacity: 0 }], { duration: 700, delay: 21000 + i * 80, fill: "forwards" });
+});
+anim($("#wm"), [{ opacity: 0, transform: "scale(.7)" }, { opacity: 1, transform: "none" }], { duration: 600, delay: 21500 });
+
+// ---- timeline control: every animation is driven from one clock so it can be recorded frame by frame
+function seek(sec) {
+  const ms = sec * 1000;
+  for (const a of document.getAnimations()) { a.pause(); a.currentTime = ms; }
+  gBn.textContent = sec >= 17.8 ? "9 tabs · 4 sites" : "5 tabs · 2 sites";
+  for (const c of counters) {
+    const p = Math.min(1, Math.max(0, (sec - c.t0) / 0.9));
+    c.node.textContent = Math.round(c.n * (1 - Math.pow(1 - p, 3)));
+  }
+}
+let start = performance.now(), raf;
+function tick(now) {
+  const sec = ((now - start) / 1000);
+  seek(Math.min(sec, TOTAL));
+  if (sec < TOTAL + 2.5) raf = requestAnimationFrame(tick); else restart();
+}
+function restart() { cancelAnimationFrame(raf); start = performance.now(); raf = requestAnimationFrame(tick); }
+function fit() { const f = $("#frame"); const k = Math.min(innerWidth / 1280, innerHeight / 720); f.style.transform = `scale(${k})`; }
+addEventListener("resize", fit); fit();
+
+window.XGT = { seek, TOTAL };
+if (new URLSearchParams(location.search).has("record")) {
+  document.body.classList.add("rec");
+  $("#frame").style.transform = "none";
+  removeEventListener("resize", fit);
+  seek(0);
+} else {
+  restart();
+}
+</script>
+</body>
+</html>

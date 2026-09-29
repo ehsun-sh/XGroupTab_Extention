@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>X Group Tab</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <div class="head-row">
+      <div class="title" id="title"></div>
+      <select id="lang" class="lang" aria-label="Language"></select>
+    </div>
+    <div class="summary" id="summary"></div>
+  </header>
+
+  <div class="toolbar">
+    <div class="seg" role="group">
+      <button id="viewSite" class="seg-btn" aria-pressed="true"></button>
+      <button id="viewGroup" class="seg-btn" aria-pressed="false"></button>
+    </div>
+    <button id="merge" class="merge wide"></button>
+    <input type="search" id="filter" autocomplete="off" />
+  </div>
+
+  <ul id="list" class="list"></ul>
+
+  <div id="empty" class="empty" hidden></div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="i18n.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

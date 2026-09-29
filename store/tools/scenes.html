@@ -1,0 +1,86 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  *{box-sizing:border-box;margin:0}
+  body{font-family:"Segoe UI Variable Display","Segoe UI",system-ui,sans-serif;overflow:hidden;color:#0f1729}
+  .stage{position:relative;width:100vw;height:100vh;overflow:hidden;background:
+    radial-gradient(1200px 600px at 85% -10%,#c9dcff 0,transparent 60%),
+    radial-gradient(900px 600px at -10% 110%,#e4dbff 0,transparent 60%),#f5f7fc}
+  .stage.dark{color:#eef2ff;background:
+    radial-gradient(1200px 600px at 85% -10%,#23336b 0,transparent 60%),
+    radial-gradient(900px 600px at -10% 110%,#3a2270 0,transparent 60%),#0d1224}
+  .copy{position:absolute;left:88px;top:50%;transform:translateY(-50%);width:500px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:20px;opacity:.85;margin-bottom:34px}
+  .brand img{width:40px;height:40px}
+  h1{font-size:54px;line-height:1.06;letter-spacing:-1.5px;font-weight:800}
+  h1 em{font-style:normal;background:linear-gradient(90deg,#2b7de9,#6a45e0);-webkit-background-clip:text;color:transparent}
+  .dark h1 em{background:linear-gradient(90deg,#6fb0ff,#b19bff);-webkit-background-clip:text}
+  p.sub{font-size:21px;line-height:1.5;margin-top:22px;opacity:.72}
+  ul.pts{list-style:none;margin-top:28px;display:grid;gap:12px;font-size:18px}
+  ul.pts li{display:flex;gap:12px;align-items:center}
+  ul.pts li::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--c,#2b7de9);flex:none}
+  .shot{position:absolute;border-radius:16px;overflow:hidden;box-shadow:0 30px 80px -20px rgba(20,30,80,.35),0 0 0 1px rgba(20,30,80,.08)}
+  .dark .shot{box-shadow:0 30px 80px -20px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08)}
+  .shot img{display:block}
+  .win{position:absolute;right:-40px;top:70px;width:720px;height:760px;border-radius:14px;background:rgba(255,255,255,.55);box-shadow:0 0 0 1px rgba(20,30,80,.06)}
+  .dark .win{background:rgba(255,255,255,.04)}
+  .tabstrip{display:flex;gap:6px;padding:12px 14px}
+  .tabstrip span{height:26px;border-radius:8px 8px 0 0;background:rgba(20,30,80,.08);flex:1}
+  .dark .tabstrip span{background:rgba(255,255,255,.08)}
+  .tabstrip span.g{border-top:3px solid var(--c)}
+  .call{position:absolute;padding:10px 16px;border-radius:12px;background:#0f1729;color:#fff;font-size:16px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.25);white-space:nowrap}
+  .dark .call{background:#fff;color:#0f1729}
+  .call::after{content:"";position:absolute;width:12px;height:12px;background:inherit;transform:rotate(45deg)}
+  .call.l::after{right:-5px;top:50%;margin-top:-6px}
+  /* promo tiles */
+  .tile{display:flex;flex-direction:column;justify-content:center;padding:0 34px;color:#fff;background:linear-gradient(135deg,#2b7de9,#5b3fd6)}
+  .tile .brand{opacity:1;margin:0 0 14px;font-size:30px;gap:14px}
+  .tile .brand img{width:56px;height:56px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.25))}
+  .tile p{font-size:19px;line-height:1.35;opacity:.92}
+</style></head>
+<body><div id="root"></div>
+<script>
+const s = new URLSearchParams(location.search).get("s");
+const P = "../build/popup/";
+const strip = (dark) => `<div class="win"><div class="tabstrip">
+  <span class="g" style="--c:#1a73e8"></span><span class="g" style="--c:#1a73e8"></span><span class="g" style="--c:#1a73e8"></span>
+  <span class="g" style="--c:#188038"></span><span class="g" style="--c:#188038"></span><span></span><span></span><span class="g" style="--c:#9334e6"></span><span></span></div></div>`;
+const brand = `<div class="brand"><img src="icon.svg">X Group Tab</div>`;
+const scenes = {
+  1: { dark: false, img: "site-light.png", h: `Every open tab,<br><em>counted by site.</em>`,
+       sub: "See how many tabs each website has open across all your windows — and which ones already live in a Tab Group.",
+       pts: [["Tab & window count per site", "#2b7de9"], ["Live Tab Group badges in their real colors", "#188038"], ["Instant domain search", "#9334e6"]] },
+  2: { dark: false, img: "site-expanded-light.png", h: `Group a whole site<br><em>in one click.</em>`,
+       sub: "Pull every tab of a site — even from other windows — into a named, colored Tab Group. Or close them all at once.",
+       pts: [["Group, add to group, or merge groups", "#2b7de9"], ["Close all tabs of a site", "#d93025"], ["Jump to, move, or close any single tab", "#e8710a"]] },
+  3: { dark: true, img: "group-dark.png", h: `All your Tab Groups<br><em>at a glance.</em>`,
+       sub: "Switch to the By-group view: every Tab Group is one row with its color, tab count, sites and window.",
+       pts: [["Merge any two groups", "#6fb0ff"], ["Ungroup while keeping the tabs", "#34c77b"], ["Close an entire group", "#ff6b5e"]] },
+  4: { dark: true, img: "site-dark.png", h: `Too many windows?<br><em>Merge them.</em>`,
+       sub: "One click moves every tab from every window into the current one. Pinned tabs stay pinned; empty windows close themselves.",
+       pts: [["Merge all windows into one", "#6fb0ff"], ["Pinned tabs kept at the front", "#ffb020"], ["Private windows are left untouched", "#b19bff"]] },
+  5: { dark: false, two: ["fa-light.png", "site-dark.png"], h: `Light or dark.<br><em>English or فارسی.</em>`,
+       sub: "Follows your system theme and supports right-to-left layout. No accounts, no tracking — everything stays in your browser.",
+       pts: [["Automatic light & dark theme", "#2b7de9"], ["English & Persian (RTL) interface", "#188038"], ["100% local, zero data collected", "#9334e6"]] }
+};
+const root = document.getElementById("root");
+if (s === "small" || s === "marquee") {
+  const big = s === "marquee";
+  root.innerHTML = `<div class="stage tile" style="${big ? "padding:0 90px" : ""}">
+    <div class="brand" style="${big ? "font-size:56px;gap:22px;margin-bottom:20px" : ""}"><img src="icon.svg" style="${big ? "width:104px;height:104px" : ""}">X Group Tab</div>
+    <p style="${big ? "font-size:30px;max-width:620px" : ""}">Count, group, merge & close tabs by site — in one click.</p>
+    ${big ? `<div class="shot" style="right:90px;top:70px;transform:rotate(-2deg)"><img src="${P}site-light.png" width="420"></div>` : ""}
+  </div>`;
+} else {
+  const c = scenes[s];
+  const shots = c.two
+    ? `<div class="shot" style="right:340px;top:120px"><img src="${P}${c.two[0]}" width="350"></div>
+       <div class="shot" style="right:-30px;top:200px"><img src="${P}${c.two[1]}" width="350"></div>`
+    : `<div class="shot" style="right:120px;top:${800 - 110 - 580}px"><img src="${P}${c.img}" width="420" id="pimg"></div>`;
+  root.innerHTML = `<div class="stage ${c.dark ? "dark" : ""}">${c.two ? "" : strip(c.dark)}${shots}
+    <div class="copy">${brand}<h1>${c.h}</h1><p class="sub">${c.sub}</p>
+    <ul class="pts">${c.pts.map(([t, col]) => `<li style="--c:${col}">${t}</li>`).join("")}</ul></div>
+    ${(c.calls || []).map(([t, x, y]) => `<div class="call l" style="right:${1280 - x + 20}px;top:${y + 110}px">${t}</div>`).join("")}
+  </div>`;
+}
+</script></body></html>
